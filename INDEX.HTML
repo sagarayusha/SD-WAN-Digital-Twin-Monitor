@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SD-WAN Digital Twin</title>
+    <style>
+        body { background: #1a1a1a; color: white; font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
+        #status { font-size: 24px; color: #00ff00; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>SD-WAN Network Status</h1>
+    <div id="status">Loading Network Data...</div>
+
+    <script>
+        async function fetchStatus() {
+            try {
+                let response = await fetch('http://127.0.0.1:8000/get_status');
+                let data = await response.json();
+                document.getElementById('status').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('status').innerText = "Backend Server is not running!";
+            }
+        }
+        // Har 2 second mein data update hoga
+        setInterval(fetchStatus, 2000);
+        fetchStatus();
+    </script>
+</body>
+</html>
